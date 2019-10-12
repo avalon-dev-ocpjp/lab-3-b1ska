@@ -1,9 +1,14 @@
 package ru.avalon.java.ocpjp.labs;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Лабораторная работа №3
@@ -59,7 +64,7 @@ public class Main {
         /*
          * TODO #02 Реализуйте метод getUrl
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return getProperties().getProperty("url");
     }
     /**
      * Возвращает параметры соединения
@@ -71,7 +76,13 @@ public class Main {
         /*
          * TODO #03 Реализуйте метод getProperties
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        Properties properties = new Properties();
+        try(InputStream stream = ClassLoader.getSystemResourceAsStream("properties\\base.properties")){
+            properties.load(stream);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return properties;
     }
     /**
      * Возвращает соединение с базой данных Sample
@@ -83,7 +94,7 @@ public class Main {
         /*
          * TODO #04 Реализуйте метод getConnection
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return DriverManager.getConnection(getUrl(), getProperties());
     }
     
 }
